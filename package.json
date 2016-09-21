@@ -1,0 +1,15 @@
+{
+  "name": "browser-extensions",
+  "version": "1.0.0",
+  "description": "Browser extensions for BrakeValve",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrakeValve/browser-extensions.git"
+  },
+  "author": "BrakeValve",
+  "license": "MIT",
+  "homepage": "https://brakevalve.github.io"
+}
