@@ -13,7 +13,7 @@ const gulp = require('gulp'),
 
 
 const bundledScriptFilename = 'main.js';
-const destinationFolder = 'dist'
+const destinationDirectory = 'dist'
 
 
 const transpile = () => {
@@ -27,14 +27,14 @@ const transpile = () => {
           .pipe(buffer())
           .pipe(sourcemaps.init({ loadMaps: true }))
           .pipe(sourcemaps.write('./'))
-          .pipe(gulp.dest(destinationFolder))
+          .pipe(gulp.dest(destinationDirectory))
 };
 
 const minify = () => {
-  return gulp.src(`dist/${bundledScriptFilename}`)
+  return gulp.src(`${destinationDirectory}/${bundledScriptFilename}`)
           .pipe(uglify())
           .pipe(rename({ suffix: '.min' }))
-          .pipe(gulp.dest(destinationFolder))
+          .pipe(gulp.dest(destinationDirectory))
 };
 
 
