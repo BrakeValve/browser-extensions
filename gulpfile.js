@@ -18,30 +18,27 @@ const destinationFolder = 'dist'
 
 const transpile = () => {
   const entries = glob.sync('src/scripts/*.es');
-  const bundler = browserify({ entries: entries }).transform(babelify);
 
-  const bundle = () => {
-    bundler.bundle()
-      .on('error', (err) => console.error(err))
-      .pipe(source(bundledScriptFilename))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({ loadMaps: true }))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest(destinationFolder));
-  };
-
-  bundle();
+  return browserify({ entries: entries })
+          .transform(babelify)
+          .bundle()
+          .on('error', (err) => console.error(err))
+          .pipe(source(bundledScriptFilename))
+          .pipe(buffer())
+          .pipe(sourcemaps.init({ loadMaps: true }))
+          .pipe(sourcemaps.write('./'))
+          .pipe(gulp.dest(destinationFolder))
 };
 
 const minify = () => {
-  gulp.src(`dist/${bundledScriptFilename}`)
-    .pipe(uglify())
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(gulp.dest(destinationFolder))
+  return gulp.src(`dist/${bundledScriptFilename}`)
+          .pipe(uglify())
+          .pipe(rename({ suffix: '.min' }))
+          .pipe(gulp.dest(destinationFolder))
 };
 
 
 gulp.task('transpile', () => transpile());
-gulp.task('minify', () => minify());
+gulp.task('minify', ['transpile'], () => minify());
 
 gulp.task('default', ['transpile', 'minify']);
