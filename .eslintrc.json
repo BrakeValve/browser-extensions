@@ -1,0 +1,12 @@
+{
+    "extends": "standard",
+    "env": {
+      "browser": true,
+      "jasmine": true
+    },
+    "parser": "babel-eslint",
+    "plugins": [
+        "standard",
+        "promise"
+    ]
+}
