@@ -8,14 +8,12 @@ import sourcemaps from 'gulp-sourcemaps'
 import uglify from 'gulp-uglify'
 import rename from 'gulp-rename'
 import eslint from 'gulp-eslint'
-import mocha from 'gulp-mocha'
-import babel from 'babel-core/register'
 
 const bundledScriptFilename = 'main.js'
 const destinationDirectory = 'dist'
 
 const jsCompile = () => {
-  const entries = glob.sync('src/libs/**/*.js')
+  const entries = glob.sync('src/libs/*.es')
 
   return browserify({ entries: entries })
           .transform(babelify)
@@ -36,27 +34,15 @@ const jsMinify = () => {
 }
 
 const jsLint = () => {
-  return gulp.src(['src/**/*.js', 'spec/**/*.spec.js'])
+  return gulp.src(['src/**/*.es', 'spec/**/*_spec.es'])
           .pipe(eslint())
           .pipe(eslint.format())
           .pipe(eslint.failAfterError())
 }
 
-const jsTest = () => {
-  return gulp.src(['spec/**/*.spec.js'])
-           .pipe(
-             mocha({
-               compilers: {
-                 js: babel
-               }
-             })
-           )
-}
-
 gulp.task('js:lint', () => jsLint())
-gulp.task('js:test', ['js:lint'], () => jsTest())
-gulp.task('js:compile', ['js:test'], () => jsCompile())
+gulp.task('js:compile', ['js:lint'], () => jsCompile())
 gulp.task('js:minify', ['js:compile'], () => jsMinify())
-gulp.task('js:bundle', ['js:lint', 'js:test', 'js:compile', 'js:minify'])
+gulp.task('js:bundle', ['js:lint', 'js:compile', 'js:minify'])
 
 gulp.task('default', ['js:bundle'])

@@ -2,7 +2,7 @@
     "extends": "standard",
     "env": {
       "browser": true,
-      "mocha": true
+      "jasmine": true
     },
     "parser": "babel-eslint",
     "plugins": [
