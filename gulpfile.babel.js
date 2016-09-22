@@ -7,11 +7,12 @@ import source from 'vinyl-source-stream'
 import sourcemaps from 'gulp-sourcemaps'
 import uglify from 'gulp-uglify'
 import rename from 'gulp-rename'
+import eslint from 'gulp-eslint'
 
 const bundledScriptFilename = 'main.js'
 const destinationDirectory = 'dist'
 
-const compile = () => {
+const jsCompile = () => {
   const entries = glob.sync('src/libs/*.es')
 
   return browserify({ entries: entries })
@@ -25,14 +26,23 @@ const compile = () => {
           .pipe(gulp.dest(destinationDirectory))
 }
 
-const minify = () => {
+const jsMinify = () => {
   return gulp.src(`${destinationDirectory}/${bundledScriptFilename}`)
           .pipe(uglify())
           .pipe(rename({ suffix: '.min' }))
           .pipe(gulp.dest(destinationDirectory))
 }
 
-gulp.task('js:compile', () => compile())
-gulp.task('js:minify', ['js:compile'], () => minify())
+const jsLint = () => {
+  return gulp.src(['src/**/*.es'])
+          .pipe(eslint())
+          .pipe(eslint.format())
+          .pipe(eslint.failAfterError())
+}
 
-gulp.task('default', ['js:compile', 'js:minify'])
+gulp.task('js:lint', () => jsLint())
+gulp.task('js:compile', ['js:lint'], () => jsCompile())
+gulp.task('js:minify', ['js:compile'], () => jsMinify())
+gulp.task('js:bundle', ['js:lint', 'js:compile', 'js:minify'])
+
+gulp.task('default', ['js:bundle'])
