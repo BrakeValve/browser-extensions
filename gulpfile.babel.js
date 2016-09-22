@@ -34,7 +34,7 @@ const jsMinify = () => {
 }
 
 const jsLint = () => {
-  return gulp.src(['src/**/*.es'])
+  return gulp.src(['src/**/*.es', 'spec/**/*_spec.es'])
           .pipe(eslint())
           .pipe(eslint.format())
           .pipe(eslint.failAfterError())
