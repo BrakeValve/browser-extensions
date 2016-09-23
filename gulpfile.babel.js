@@ -8,8 +8,8 @@ import sourcemaps from 'gulp-sourcemaps'
 import uglify from 'gulp-uglify'
 import rename from 'gulp-rename'
 import eslint from 'gulp-eslint'
-import mocha from 'gulp-mocha'
-import babel from 'babel-core/register'
+import karma from 'karma'
+import path from 'path'
 
 const bundledScriptFilename = 'main.js'
 const destinationDirectory = 'dist'
@@ -42,15 +42,9 @@ const jsLint = () => {
           .pipe(eslint.failAfterError())
 }
 
-const jsTest = () => {
-  return gulp.src(['spec/**/*.spec.js'])
-           .pipe(
-             mocha({
-               compilers: {
-                 js: babel
-               }
-             })
-           )
+const jsTest = (done) => {
+  const karmaServerConf = { configFile: path.resolve(__dirname, 'karma.conf.js') }
+  return new karma.Server(karmaServerConf, done).start()
 }
 
 gulp.task('js:lint', () => jsLint())

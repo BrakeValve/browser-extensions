@@ -1,11 +1,15 @@
-import jsdom from 'mocha-jsdom'
 import { expect } from 'chai'
 import { getCurrency } from '../../src/libs/helpers/dom-helper'
 
 describe('getCurrency()', () => {
-  describe('with valid meta tag', () => {
-    jsdom()
+  afterEach(() => {
+    const metaTag = document.querySelector('meta[itemprop="priceCurrency"]')
+    if (metaTag) {
+      document.head.removeChild(metaTag)
+    }
+  })
 
+  describe('with valid meta tag', () => {
     before(() => {
       const metaTag = document.createElement('meta')
       metaTag.setAttribute('itemprop', 'priceCurrency')
@@ -19,8 +23,6 @@ describe('getCurrency()', () => {
   })
 
   describe('with invalid meta tag (missing attribute: content)', () => {
-    jsdom()
-
     before(() => {
       const metaTag = document.createElement('meta')
       metaTag.setAttribute('itemprop', 'priceCurrency')
@@ -33,8 +35,6 @@ describe('getCurrency()', () => {
   })
 
   describe('without meta tag', () => {
-    jsdom()
-
     it('returns null', () => {
       expect(getCurrency()).to.be.null
     })
