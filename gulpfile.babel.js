@@ -14,6 +14,8 @@ import path from 'path'
 const bundledScriptFilename = 'main.js'
 const destinationDirectory = 'dist'
 
+const isCI = process.env.CONTINUOUS_INTEGRATION
+
 const jsCompile = () => {
   const entries = glob.sync('src/libs/**/*.js')
 
@@ -43,7 +45,9 @@ const jsLint = () => {
 }
 
 const jsTest = (done) => {
-  const karmaServerConf = { configFile: path.resolve(__dirname, 'karma.conf.js') }
+  const karmaServerConf = {
+    configFile: path.resolve(__dirname, (isCI ? 'karma.conf.ci.js' : 'karma.conf.js'))
+  }
   return new karma.Server(karmaServerConf, done).start()
 }
 
