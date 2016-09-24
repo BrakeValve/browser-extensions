@@ -15,13 +15,13 @@ describe('get()', function () { // must NOT use arrow function
   })
 
   describe('with bad url', () => {
-    it('returns a 404', () => {
+    it('returns failure', () => {
       return get('https://raw.githubusercontent.com/muan/emojilib/master/emojis.json.404')
         .then((response) => {
           throw new Error('unexpected success status captured')
         })
         .catch((statusCode) => {
-          expect(statusCode).to.equal(404)
+          expect(statusCode).not.to.be.within(200, 399)
         })
     })
   })
@@ -49,13 +49,13 @@ describe('post()', function () {
   })
 
   describe('with bad url', function () {
-    it('returns a 404', function () {
+    it('returns failure', function () {
       return post('https://httpbin.org/post.404', payload)
         .then((response) => {
           throw new Error('unexpected success status captured')
         })
         .catch((statusCode) => {
-          expect(statusCode).to.equal(404)
+          expect(statusCode).not.to.be.within(200, 399)
         })
     })
   })

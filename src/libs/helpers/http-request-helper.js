@@ -1,5 +1,6 @@
 import xhr from 'xhr'
 
+const isString = (obj) => { return (typeof (obj) === 'string') }
 const isSuccess = (code) => { return (code >= 200 && code <= 399) }
 
 async function get (url) {
@@ -13,8 +14,14 @@ async function post (url, payload) {
 async function request (url, method, payload = undefined) {
   return new Promise(
     function (resolve, reject) {
+      const headers = {}
+      if (payload) {
+        headers['Content-Type'] = 'application/json'
+      }
+
       const options = {
-        body: payload ? JSON.stringify(payload) : '',
+        body: isString(payload) ? payload : JSON.stringify(payload),
+        headers: headers,
         uri: url,
         method: method
       }
