@@ -52,9 +52,11 @@ const jsTest = (done) => {
 }
 
 gulp.task('js:lint', () => jsLint())
-gulp.task('js:test', ['js:lint'], () => jsTest())
-gulp.task('js:compile', ['js:test'], () => jsCompile())
+gulp.task('js:test', () => jsTest())
+gulp.task('js:compile', () => jsCompile())
 gulp.task('js:minify', ['js:compile'], () => jsMinify())
 gulp.task('js:bundle', ['js:lint', 'js:test', 'js:compile', 'js:minify'])
+
+gulp.task('ci:build', ['js:lint', 'js:test'])
 
 gulp.task('default', ['js:bundle'])

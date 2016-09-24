@@ -2,9 +2,6 @@
   "name": "browser-extensions",
   "version": "0.0.1",
   "description": "Browser extensions for BrakeValve",
-  "scripts": {
-    "test": "gulp js:test"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BrakeValve/browser-extensions.git"
