@@ -3,4 +3,9 @@ function getCurrency () {
   return (element && element.content) ? element.content : null
 }
 
-export { getCurrency }
+function getAppID () {
+  const inputTag = document.querySelector('input[type=hidden]#review_appid')
+  return (inputTag && inputTag.value) ? inputTag.value : null
+}
+
+export { getCurrency, getAppID }
