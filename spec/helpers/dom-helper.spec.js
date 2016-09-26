@@ -42,14 +42,22 @@ describe('getCurrency()', () => {
 })
 
 describe('getAppID()', () => {
+  afterEach(() => {
+    const inputTag = document.querySelector('input[type=hidden]#review_appid')
+    if (inputTag) {
+      document.body.removeChild(inputTag)
+    }
+  })
+
   describe('with valid input tag', () => {
-    const appID = 10
+    const appID = '10'
 
     before(() => {
       const inputTag = document.createElement('input')
       inputTag.setAttribute('type', 'hidden')
       inputTag.setAttribute('id', 'review_appid')
       inputTag.setAttribute('value', appID)
+      document.body.appendChild(inputTag)
     })
 
     it('returns app the desired app id', () => {
@@ -62,6 +70,7 @@ describe('getAppID()', () => {
       const inputTag = document.createElement('input')
       inputTag.setAttribute('type', 'hidden')
       inputTag.setAttribute('id', 'review_appid')
+      document.body.appendChild(inputTag)
     })
 
     it('returns null', () => {
