@@ -6,16 +6,19 @@ import buffer from 'vinyl-buffer'
 import source from 'vinyl-source-stream'
 import sourcemaps from 'gulp-sourcemaps'
 import uglify from 'gulp-uglify'
+import concat from 'gulp-concat'
 import rename from 'gulp-rename'
 import eslint from 'gulp-eslint'
 import sass from 'gulp-sass'
+import autoprefixer from 'gulp-autoprefixer'
 import sasslint from 'gulp-sass-lint'
 import cleancss from 'gulp-clean-css'
 import karma from 'karma'
 import path from 'path'
 
-const bundledScriptFilename = 'main.js'
 const destinationDirectory = 'dist'
+const bundledScriptFilename = 'main.js'
+const bundledStyleSheetFilename = 'main.css'
 
 const isCI = process.env.CONTINUOUS_INTEGRATION
 
@@ -63,12 +66,16 @@ const cssLint = () => {
 
 const cssCompile = () => {
   return gulp.src('src/styles/**/*.scss')
+          .pipe(sourcemaps.init())
           .pipe(sass().on('error', sass.logError))
+          .pipe(concat(bundledStyleSheetFilename))
+          .pipe(autoprefixer())
+          .pipe(sourcemaps.write('./'))
           .pipe(gulp.dest(destinationDirectory))
 }
 
 const cssMinify = () => {
-  return gulp.src(`${destinationDirectory}/**/*.css`)
+  return gulp.src(`${destinationDirectory}/${bundledStyleSheetFilename}`)
           .pipe(cleancss())
           .pipe(rename({ suffix: '.min' }))
           .pipe(gulp.dest(destinationDirectory))
