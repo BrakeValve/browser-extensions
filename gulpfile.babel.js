@@ -8,6 +8,7 @@ import sourcemaps from 'gulp-sourcemaps'
 import uglify from 'gulp-uglify'
 import rename from 'gulp-rename'
 import eslint from 'gulp-eslint'
+import sasslint from 'gulp-sass-lint'
 import karma from 'karma'
 import path from 'path'
 
@@ -51,12 +52,21 @@ const jsTest = (done) => {
   return new karma.Server(karmaServerConf, done).start()
 }
 
+const sassLint = () => {
+  return gulp.src('src/styles/**/*.scss')
+    .pipe(sasslint())
+    .pipe(sasslint.format())
+    .pipe(sasslint.failOnError())
+}
+
 gulp.task('js:lint', () => jsLint())
 gulp.task('js:test', () => jsTest())
 gulp.task('js:compile', () => jsCompile())
 gulp.task('js:minify', ['js:compile'], () => jsMinify())
 gulp.task('js:bundle', ['js:lint', 'js:test', 'js:compile', 'js:minify'])
 
-gulp.task('ci:build', ['js:lint', 'js:test'])
+gulp.task('sass:lint', () => sassLint())
+
+gulp.task('ci:build', ['js:lint', 'js:test', 'sass:lint'])
 
 gulp.task('default', ['js:bundle'])
