@@ -81,15 +81,15 @@ const cssMinify = () => {
           .pipe(gulp.dest(destinationDirectory))
 }
 
-gulp.task('js:lint', () => jsLint())
-gulp.task('js:test', () => jsTest())
-gulp.task('js:compile', () => jsCompile())
-gulp.task('js:minify', ['js:compile'], () => jsMinify())
+gulp.task('js:lint', jsLint)
+gulp.task('js:test', jsTest)
+gulp.task('js:compile', jsCompile)
+gulp.task('js:minify', ['js:compile'], jsMinify)
 gulp.task('js:bundle', ['js:lint', 'js:test', 'js:compile', 'js:minify'])
 
-gulp.task('css:lint', () => cssLint())
-gulp.task('css:compile', () => cssCompile())
-gulp.task('css:minify', ['css:compile'], () => cssMinify())
+gulp.task('css:lint', cssLint)
+gulp.task('css:compile', cssCompile)
+gulp.task('css:minify', ['css:compile'], cssMinify)
 
 gulp.task('ci:build', ['js:lint', 'js:test', 'css:lint'])
 
