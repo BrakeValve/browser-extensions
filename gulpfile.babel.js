@@ -8,7 +8,9 @@ import sourcemaps from 'gulp-sourcemaps'
 import uglify from 'gulp-uglify'
 import rename from 'gulp-rename'
 import eslint from 'gulp-eslint'
+import sass from 'gulp-sass'
 import sasslint from 'gulp-sass-lint'
+import cleancss from 'gulp-clean-css'
 import karma from 'karma'
 import path from 'path'
 
@@ -52,11 +54,24 @@ const jsTest = (done) => {
   return new karma.Server(karmaServerConf, done).start()
 }
 
-const sassLint = () => {
+const cssLint = () => {
   return gulp.src('src/styles/**/*.scss')
-    .pipe(sasslint())
-    .pipe(sasslint.format())
-    .pipe(sasslint.failOnError())
+          .pipe(sasslint())
+          .pipe(sasslint.format())
+          .pipe(sasslint.failOnError())
+}
+
+const cssCompile = () => {
+  return gulp.src('src/styles/**/*.scss')
+          .pipe(sass().on('error', sass.logError))
+          .pipe(gulp.dest(destinationDirectory))
+}
+
+const cssMinify = () => {
+  return gulp.src(`${destinationDirectory}/**/*.css`)
+          .pipe(cleancss())
+          .pipe(rename({ suffix: '.min' }))
+          .pipe(gulp.dest(destinationDirectory))
 }
 
 gulp.task('js:lint', () => jsLint())
@@ -65,8 +80,10 @@ gulp.task('js:compile', () => jsCompile())
 gulp.task('js:minify', ['js:compile'], () => jsMinify())
 gulp.task('js:bundle', ['js:lint', 'js:test', 'js:compile', 'js:minify'])
 
-gulp.task('sass:lint', () => sassLint())
+gulp.task('css:lint', () => cssLint())
+gulp.task('css:compile', () => cssCompile())
+gulp.task('css:minify', ['css:compile'], () => cssMinify())
 
-gulp.task('ci:build', ['js:lint', 'js:test', 'sass:lint'])
+gulp.task('ci:build', ['js:lint', 'js:test', 'css:lint'])
 
 gulp.task('default', ['js:bundle'])
