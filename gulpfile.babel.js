@@ -81,6 +81,11 @@ const cssMinify = () => {
           .pipe(gulp.dest(destinationDirectory))
 }
 
+const crxPackage = () => {
+  return gulp.src('config/chrome/manifest.json')
+          .pipe(gulp.dest(destinationDirectory))
+}
+
 gulp.task('js:lint', jsLint)
 gulp.task('js:test', jsTest)
 gulp.task('js:compile', jsCompile)
@@ -90,6 +95,9 @@ gulp.task('js:bundle', ['js:lint', 'js:test', 'js:compile', 'js:minify'])
 gulp.task('css:lint', cssLint)
 gulp.task('css:compile', cssCompile)
 gulp.task('css:minify', ['css:compile'], cssMinify)
+gulp.task('css:bundle', ['css:compile', 'css:minify'])
+
+gulp.task('crx:package', ['js:bundle', 'css:bundle'], crxPackage)
 
 gulp.task('ci:build', ['js:lint', 'js:test', 'css:lint'])
 
