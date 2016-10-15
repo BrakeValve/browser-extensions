@@ -1,6 +1,6 @@
 import Chart from 'chart.js'
 
-import { getCurrency, getAppID, getAppPurchaseBox, getPurchaseButton } from './helpers/dom-helper'
+import { getCurrency, getAppID, getPurchaseButton } from './helpers/dom-helper'
 import { get } from './helpers/http-request-helper'
 
 Chart.defaults.global.legend.display = false
