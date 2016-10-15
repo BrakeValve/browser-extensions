@@ -8,4 +8,12 @@ function getAppID () {
   return (inputTag && inputTag.value) ? inputTag.value : null
 }
 
-export { getCurrency, getAppID }
+function getAppPurchaseBox () {
+  return document.querySelector('.game_area_purchase_game_wrapper')
+}
+
+function getPurchaseButton () {
+  return getAppPurchaseBox().querySelector('a.btn_medium.btnv6_green_white_innerfade')
+}
+
+export { getCurrency, getAppID, getAppPurchaseBox, getPurchaseButton }
