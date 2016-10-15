@@ -1,3 +1,6 @@
 files:
   include:
     - 'src/styles/**/*.scss'
+
+rules:
+  force-pseudo-nesting: 0

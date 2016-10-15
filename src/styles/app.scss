@@ -2,20 +2,38 @@ $brand-white: #fff;
 
 $stop-button-gradient-top: rgba(229, 42, 19, 1);
 $stop-button-gradient-bottom: rgba(181, 34, 16, 1);
+$btn-stop-background: linear-gradient(to bottom, $stop-button-gradient-top 5%, $stop-button-gradient-bottom 95%);
 
 $caution-button-gradient-top: rgba(255, 192, 27, 1);
 $caution-button-gradient-bottom: rgba(204, 154, 22, 1);
+$btn-caution-background: linear-gradient(to bottom, $caution-button-gradient-top 5%, $caution-button-gradient-bottom 95%);
+
 
 .brakevalve {
   &.btn-stop {
-    background: linear-gradient(to bottom, $stop-button-gradient-top 5%, $stop-button-gradient-bottom 95%);
-    color: $brand-white;
+    background: $btn-stop-background;
     cursor: no-drop;
+
+    &:not(.btn_disabled):not(:disabled):not(.btn_active):not(.active):hover {
+      background: $btn-stop-background;
+    }
+
+    span {
+      color: $brand-white;
+    }
   }
 
   &.btn-caution {
-    background: linear-gradient(to bottom, $caution-button-gradient-top 5%, $caution-button-gradient-bottom 95%);
-    color: $brand-white;
+    background: $btn-caution-background;
+
+    &:not(.btn_disabled):not(:disabled):not(.btn_active):not(.active):hover {
+      background: $btn-caution-background;
+    }
+
+    span {
+      color: $brand-white;
+    }
+
   }
 
   &.info-box {
