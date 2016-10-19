@@ -7,8 +7,9 @@ WIP 🚧
 1. Install dependencies
 
   ```
-  $ npm install -g gulp
-  $ npm install
+  $ npm install -g yarn
+  $ yarn global add gulp
+  $ yarn install
   ```
 
 2. Compile Javascript / SASS
