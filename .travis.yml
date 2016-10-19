@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - 6.6.0
+  - 6.9.0
 
 env:
   - CXX=g++-4.8
@@ -14,10 +14,11 @@ addons:
       - g++-4.8
 
 before_script:
-  - npm install -g gulp
+  - npm install -g yarn
 
 install:
-  - npm install
+  - yarn install
+  - yarn global add gulp
 
 script:
   - gulp ci:build
