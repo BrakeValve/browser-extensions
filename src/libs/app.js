@@ -29,6 +29,6 @@ function updateButtonStyle (prediction) {
 }
 
 fetchPriceData()
-  .then(data => {
+  .then((data) => {
     updateButtonStyle(data.prediction)
   })
