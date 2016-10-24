@@ -1,7 +1,7 @@
 import xhr from 'xhr'
 
-const isString = (obj) => { return (typeof (obj) === 'string') }
-const isSuccess = (code) => { return (code >= 200 && code <= 399) }
+function isString (obj) { return (typeof (obj) === 'string') }
+function isSuccess (code) { return (code >= 200 && code <= 399) }
 
 async function get (url) {
   return request(url, 'GET')

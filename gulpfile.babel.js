@@ -22,7 +22,7 @@ const bundledStyleSheetFilename = 'main.css'
 
 const isCI = process.env.CONTINUOUS_INTEGRATION
 
-const jsCompile = () => {
+function jsCompile () {
   const entries = glob.sync('src/libs/**/*.js')
 
   return browserify({ entries: entries })
@@ -36,35 +36,35 @@ const jsCompile = () => {
           .pipe(gulp.dest(destinationDirectory))
 }
 
-const jsMinify = () => {
+function jsMinify () {
   return gulp.src(`${destinationDirectory}/${bundledScriptFilename}`)
           .pipe(uglify())
           .pipe(rename({ suffix: '.min' }))
           .pipe(gulp.dest(destinationDirectory))
 }
 
-const jsLint = () => {
+function jsLint () {
   return gulp.src(['src/**/*.js', 'spec/**/*.spec.js'])
           .pipe(eslint())
           .pipe(eslint.format())
           .pipe(eslint.failAfterError())
 }
 
-const jsTest = (done) => {
+function jsTest (done) {
   const karmaServerConf = {
     configFile: path.resolve(__dirname, (isCI ? 'karma.conf.ci.js' : 'karma.conf.js'))
   }
   return new karma.Server(karmaServerConf, done).start()
 }
 
-const cssLint = () => {
+function cssLint () {
   return gulp.src('src/styles/**/*.scss')
           .pipe(sasslint())
           .pipe(sasslint.format())
           .pipe(sasslint.failOnError())
 }
 
-const cssCompile = () => {
+function cssCompile () {
   return gulp.src('src/styles/**/*.scss')
           .pipe(sourcemaps.init())
           .pipe(sass().on('error', sass.logError))
@@ -74,14 +74,14 @@ const cssCompile = () => {
           .pipe(gulp.dest(destinationDirectory))
 }
 
-const cssMinify = () => {
+function cssMinify () {
   return gulp.src(`${destinationDirectory}/${bundledStyleSheetFilename}`)
           .pipe(cleancss())
           .pipe(rename({ suffix: '.min' }))
           .pipe(gulp.dest(destinationDirectory))
 }
 
-const crxPackage = () => {
+function crxPackage () {
   return gulp.src('config/chrome/manifest.json')
           .pipe(gulp.dest(destinationDirectory))
 }
