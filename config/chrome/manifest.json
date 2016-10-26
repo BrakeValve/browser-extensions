@@ -1,27 +1,18 @@
 {
   "manifest_version": 2,
-
   "name": "BrakeValve",
   "description": "Look before you buy!",
   "version": "0.1.0",
-
   "browser_action": {},
-
   "content_scripts": [
     {
-      "matches": [
-        "http://store.steampowered.com/app/*/",
-        "http://store.steampowered.com/app/*"
-      ],
+      "matches": ["http://store.steampowered.com/app/*"],
       "js": ["main.min.js"],
       "css": ["main.min.css"],
       "run_at": "document_idle"
     }
   ],
-
   "permissions": [
-    "tabs",
-    "<all_urls>",
-    "https://www.google.com/"
+    "activeTab"
   ]
 }
