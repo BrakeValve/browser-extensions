@@ -3,15 +3,15 @@ import xhr from 'xhr'
 function isString (obj) { return (typeof (obj) === 'string') }
 function isSuccess (code) { return (code >= 200 && code <= 399) }
 
-async function get (url) {
-  return request(url, 'GET')
+async function get (url, deserialize = true) {
+  return request(url, 'GET', deserialize)
 }
 
 async function post (url, payload) {
-  return request(url, 'POST', payload)
+  return request(url, 'POST', true, payload)
 }
 
-async function request (url, method, payload = undefined) {
+async function request (url, method, deserialize = true, payload = undefined) {
   return new Promise(
     function (resolve, reject) {
       const headers = {}
@@ -28,7 +28,11 @@ async function request (url, method, payload = undefined) {
 
       const callback = function (err, resp, body) {
         if (!err && isSuccess(resp.statusCode)) {
-          resolve(JSON.parse(body))
+          if (deserialize) {
+            resolve(JSON.parse(body))
+          } else {
+            resolve(body)
+          }
         } else {
           reject(resp.statusCode)
         }
