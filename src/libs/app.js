@@ -5,6 +5,9 @@ import { getCurrency, getAppID, getPurchaseButton, getAppPurchaseBox } from './h
 import { get } from './helpers/http-request-helper'
 
 Chart.defaults.global.legend.display = false
+Chart.defaults.global.animation.duration = 2000
+
+const BrakeValve = {}
 
 class ChartProperties {
   static get areaUnderCurveColor () {
@@ -22,6 +25,18 @@ class ChartProperties {
   static get dotColor () {
     return 'rgba(255, 255, 255, 0.5)'
   }
+}
+
+BrakeValve.infoBox = (function () {
+  const appPurchaseBox = getAppPurchaseBox()
+  const _infoBox = document.createElement('div')
+  _infoBox.classList.add('brakevalve', 'info-box')
+  appPurchaseBox.appendChild(_infoBox)
+  return _infoBox
+})()
+
+function loadSpinner () {
+  return get(chrome.extension.getURL('templates/loading-indicator.html'), false)
 }
 
 function fetchPriceData () {
@@ -81,12 +96,12 @@ function generateChartData (prices) {
 }
 
 function plotHistoricalData (data) {
-  const chartCanvas = createCanvas()
-  getAppPurchaseBox().appendChild(chartCanvas)
+  BrakeValve.chart = createCanvas()
+  BrakeValve.infoBox.appendChild(BrakeValve.chart)
 
   const chartData = generateChartData(data)
   Chart.Line(
-    chartCanvas.getContext('2d'),
+    BrakeValve.chart.getContext('2d'),
     {
       data: chartData,
       options: {
@@ -97,10 +112,22 @@ function plotHistoricalData (data) {
       }
     }
   )
+  console.log(BrakeValve.chart)
 }
 
-fetchPriceData()
+loadSpinner()
+  .then((html) => {
+    const templateElement = document.createElement('template')
+    templateElement.innerHTML = html
+    BrakeValve.loadingIndicator = templateElement.content.firstChild
+    BrakeValve.infoBox.appendChild(BrakeValve.loadingIndicator)
+
+    return fetchPriceData()
+  })
   .then((data) => {
-    updateButtonStyle(data.prediction)
-    plotHistoricalData(data.priceHistory)
+    setTimeout(() => {
+      updateButtonStyle(data.prediction)
+      plotHistoricalData(data.priceHistory)
+      BrakeValve.infoBox.removeChild(BrakeValve.loadingIndicator)
+    }, 2500)
   })

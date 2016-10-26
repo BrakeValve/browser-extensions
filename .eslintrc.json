@@ -8,5 +8,8 @@
     "plugins": [
         "standard",
         "promise"
-    ]
+    ],
+    "globals": {
+      "chrome": true
+    }
 }

@@ -1,0 +1,21 @@
+$brakevalve-brand-white: #fff;
+$brakevalve-info-white: rgba(255, 255, 255, .4);
+
+$brakevalve-stop-button-gradient-top: rgba(229, 42, 19, 1);
+$brakevalve-stop-button-gradient-bottom: rgba(181, 34, 16, 1);
+$brakevalve-stop-button-background: linear-gradient(
+  to bottom,
+  $brakevalve-stop-button-gradient-top 5%,
+  $brakevalve-stop-button-gradient-bottom 95%
+);
+
+$brakevalve-caution-button-gradient-top: rgba(255, 192, 27, 1);
+$brakevalve-caution-button-gradient-bottom: rgba(204, 154, 22, 1);
+$brakevalve-caution-button-background: linear-gradient(
+  to bottom,
+  $brakevalve-caution-button-gradient-top 5%,
+  $brakevalve-caution-button-gradient-bottom 95%
+);
+
+// SpinKit configuration
+$spinkit-spinner-color: $brakevalve-info-white;
