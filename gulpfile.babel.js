@@ -81,6 +81,11 @@ function cssMinify () {
           .pipe(gulp.dest(destinationDirectory))
 }
 
+function htmlCopy () {
+  return gulp.src('src/templates/*.html')
+          .pipe(gulp.dest(`${destinationDirectory}/templates`))
+}
+
 function crxPackage () {
   return gulp.src('config/chrome/manifest.json')
           .pipe(gulp.dest(destinationDirectory))
@@ -97,7 +102,9 @@ gulp.task('css:compile', cssCompile)
 gulp.task('css:minify', ['css:compile'], cssMinify)
 gulp.task('css:bundle', ['css:compile', 'css:minify'])
 
-gulp.task('crx:package', ['js:bundle', 'css:bundle'], crxPackage)
+gulp.task('html:copy', htmlCopy)
+
+gulp.task('crx:package', ['js:bundle', 'css:bundle', 'html:copy'], crxPackage)
 
 gulp.task('ci:build', ['js:lint', 'js:test', 'css:lint'])
 
